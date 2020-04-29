@@ -7,7 +7,7 @@ contact the authors.
 **Subfolders:**
   * `data` -- the folder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
-              (*.mat files) and the scripts (plot_*.m) are divided into
+              (`*.mat` files) and the scripts (`plot_*.m`) are divided into
               subfolders based on the respective method
   * `Janssen` -- functions for audio inpainting using AR-based method by
               Janssen et al. [1]
