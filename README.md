@@ -5,27 +5,32 @@ in the repository provided below. In case of any questions, feel free to
 contact the authors.
 
 **Subfolders:**
-  * `data` -- the folder contains results of all the performed experiments,
+  * `data` -- The folder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
               (`*.mat` files) and the scripts (`plot_*.m`) are divided into
-              subfolders based on the respective method
-  * `Janssen` -- functions for audio inpainting using AR-based method by
-              Janssen et al. [1]
-  * `PemoQ` -- functions for evaluation of the perceived quality of restored
-              audio [2]
-  * `reweighted l1 relaxation` -- implementation of the l1-relaxation-based
-              methods presented in the paper and supporting functions
-  * `SPAIN` -- functions for audio inpainting using SPAIN algorithm [3]
+              subfolders based on the respective method.
+  * `figures` -- Due to space limitations, there are only selected examples
+              of the results in the paper. To provide a comprehensive
+              comparison of the method, supplemental results are presented here.
+              All the present figures are generated with scripts and data
+              available in the folder `data`. 
+  * `Janssen` -- Functions for audio inpainting using AR-based method by
+              Janssen et al. [1].
+  * `PemoQ` -- Functions for evaluation of the perceived quality of restored
+              audio [2].
+  * `reweighted l1 relaxation` -- Implementation of the l1-relaxation-based
+              methods presented in the paper and supporting functions.
+  * `SPAIN` -- Functions for audio inpainting using SPAIN algorithm [3].
 
 **Files:**
-  * `demo.m` -- the user is asked to choose signal, gap parameters (number,
+  * `demo.m` -- The user is asked to choose signal, gap parameters (number,
               length) and algorithms from the preset options; the script
               then performs audio with such settings (if necessary, the
-              parameters of the methods need to be changed in the m-file)
-  * `EBU_SQAM.mat` -- collection of signals used for the evaluation [4]
-  * `inpainting_comparison_multigap.m` -- implementation of the methods used
+              parameters of the methods need to be changed in the m-file).
+  * `EBU_SQAM.mat` -- Collection of signals used for the evaluation [4].
+  * `inpainting_comparison_multigap.m` -- Implementation of the methods used
               for overall evaluation; the script reproduces all the data
-              used in the paper, thus it takes a substantial amount of time
+              used in the paper, thus it takes a substantial amount of time.
 
 All the scripts were tested in MATLAB R2019a and using LTFAT [5, 6]
 (version 2.3.1), which is not contained in this package.
