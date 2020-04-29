@@ -4,26 +4,26 @@ by Ondřej Mokrý and Pavel Rajmic. See a short guide to the files contained
 in the repository provided below. In case of any questions, feel free to
 contact the authors.
 
-subfolders
-  data ...... the folder contains results of all the performed experiments,
+**Subfolders:**
+  * `data` -- the folder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
               (*.mat files) and the scripts (plot_*.m) are divided into
               subfolders based on the respective method
-  Janssen ... functions for audio inpainting using AR-based method by
+  * `Janssen` -- functions for audio inpainting using AR-based method by
               Janssen et al. [1]
-  PemoQ ..... functions for evaluation of the perceived quality of restored
+  * `PemoQ` -- functions for evaluation of the perceived quality of restored
               audio [2]
-  reweighted l1 relaxation ... implementation of the l1-relaxation-based
+  * `reweighted l1 relaxation` -- implementation of the l1-relaxation-based
               methods presented in the paper and supporting functions
-  SPAIN ..... functions for audio inpainting using SPAIN algorithm [3]
+  * `SPAIN` -- functions for audio inpainting using SPAIN algorithm [3]
 
-files
-  demo.m .... the user is asked to choose signal, gap parameters (number,
+**Files:**
+  * `demo.m` -- the user is asked to choose signal, gap parameters (number,
               length) and algorithms from the preset options; the script
               then performs audio with such settings (if necessary, the
               parameters of the methods need to be changed in the m-file)
-  EBU_SQAM.mat ... collection of signals used for the evaluation [4]
-  inpainting_comparison_multigap.m ... implementation of the methods used
+  * `EBU_SQAM.mat` -- collection of signals used for the evaluation [4]
+  * `inpainting_comparison_multigap.m` -- implementation of the methods used
               for overall evaluation; the script reproduces all the data
               used in the paper, thus it takes a substantial amount of time
 
@@ -31,15 +31,16 @@ All the scripts were tested in MATLAB R2019a and using LTFAT [5, 6]
 (version 2.3.1), which is not contained in this package.
 
 For the plotting scripts to be functional, MATLAB version R2018b or higher
-is necessary, because the function sgtitle() is used multiple times.
+is necessary, because the function `sgtitle()` is used multiple times.
 
 Furthermore, to work correctly, the interpreter for legend and titles
 should be set to latex, use for example
 
-  set(groot, 'defaultLegendInterpreter','latex');
-  set(groot, 'defaultTextInterpreter','latex');
+  `set(groot, 'defaultLegendInterpreter','latex');`
+  
+  `set(groot, 'defaultTextInterpreter','latex');`
 
-References:
+**References:**
 
 [1] A. J. E. M. Janssen, R. N. J. Veldhuis, and L. B. Vries, “Adaptive
     interpolation of discrete-time signals that can be modeled as
