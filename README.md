@@ -17,8 +17,9 @@ contact the authors.
   * `Janssen` -- Functions for audio inpainting using AR-based method by
               Janssen et al. [1].
   * `PemoQ` -- Functions for evaluation of the perceived quality of restored
-              audio [2]. **This folder is not part of the package due to copyright
-              issues. However, it needs to be included for the demo files to work.** 
+              audio [2]. This folder is not part of the package due to copyright
+              issues. However, it needs to be included to reproduce the presented
+              results.
   * `reweighted l1 relaxation` -- Implementation of the l1-relaxation-based
               methods presented in the paper and supporting functions.
   * `SPAIN` -- Functions for audio inpainting using SPAIN algorithm [3].
