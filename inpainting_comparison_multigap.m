@@ -26,7 +26,11 @@ rng(0);
 addpath('reweighted l1 relaxation');
 addpath('SPAIN');
 addpath('Janssen');
-addpath(genpath('PemoQ'));
+
+PQ = exist('PemoQ','dir');
+if PQ
+    addpath(genpath('PemoQ'));
+end
 
 load('EBU_SQAM.mat');
 
@@ -547,18 +551,22 @@ algos = {'DR','CP','reDR','reCP','gradual','tdc','SSPAIN_H','ASPAIN','Janssen'};
  
 for algo = 1:9
     eval(sprintf('fullSNRs(signum,algo,gapnum) = snr_n(signal(~full.mask),solution.%s(~full.mask));',algos{algo}));
-    eval(sprintf('[PSM, PSMt, ODG, ~] = audioqual(signal, solution.%s, fs);',algos{algo}));
-    fprintf(repmat('\b', 1, 22))
-    
-    PSMs (signum,algo,gapnum) = PSM;
-    PSMts(signum,algo,gapnum) = PSMt;
-    ODGs (signum,algo,gapnum) = ODG;
     
     fprintf('\nAlgorithm: %s\n',algos{algo})
     fprintf('  SNR:  %5.2f dB\n',fullSNRs(signum,algo,gapnum))
-    fprintf('  ODG:  %5.2f\n',ODGs(signum,algo,gapnum))
-    fprintf('  PSM:  %5.2f\n',PSMs(signum,algo,gapnum))
-    fprintf('  PSMt: %5.2f\n',PSMts(signum,algo,gapnum))
+    
+    if PQ
+        eval(sprintf('[PSM, PSMt, ODG, ~] = audioqual(signal, solution.%s, fs);',algos{algo}));
+        fprintf(repmat('\b', 1, 22))
+
+        PSMs (signum,algo,gapnum) = PSM;
+        PSMts(signum,algo,gapnum) = PSMt;
+        ODGs (signum,algo,gapnum) = ODG;
+
+        fprintf('  ODG:  %5.2f\n',ODGs(signum,algo,gapnum))
+        fprintf('  PSM:  %5.2f\n',PSMs(signum,algo,gapnum))
+        fprintf('  PSMt: %5.2f\n',PSMts(signum,algo,gapnum))
+    end
 end
 
 end % gapnum

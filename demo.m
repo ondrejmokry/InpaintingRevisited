@@ -15,7 +15,11 @@ rng(0);
 addpath('reweighted l1 relaxation');
 addpath('SPAIN');
 addpath('Janssen');
-addpath(genpath('PemoQ'));
+
+PQ = exist('PemoQ','dir');
+if PQ
+    addpath(genpath('PemoQ'));
+end
 
 load('EBU_SQAM.mat');
 
@@ -39,7 +43,7 @@ turnon = logical([ 1    1      1     1          1     1          1        1     
 fprintf('Notes:\n')
 fprintf('  - LTFAT needs to be running on your PC (http://ltfat.github.io/)\n')
 fprintf('  - some basic settings are performed using the command window\n')
-fprintf('  - all the details need to be set inside the code inpainting_comparison_multigap.m\n')
+fprintf('  - all the details need to be set inside the code demo.m\n')
 
 fprintf('\nAvailable signals:\n')
 for i = 1:length(sigs)
@@ -653,58 +657,76 @@ title(sprintf('signal: %s, gap length: %d ms, only the gaps',signame,gap_length)
 %% SNRs and ODGs
 fprintf('\nSNRs and ODGs computed from all the gaps at once:\n')
 if turnon(1)
-    fprintf('   DR:          SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.DR(~full.mask)))    
-    [~, ~, ODG, ~] = audioqual(signal, solution.DR, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    fprintf('   DR:          SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.DR(~full.mask)))
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.DR, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(2)
     fprintf('   CP:          SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.CP(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.CP, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.CP, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(3)
     fprintf('   reDR:        SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.reDR(~full.mask)))    
-    [~, ~, ODG, ~] = audioqual(signal, solution.DR, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.reDR, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(4)
-    fprintf('   reCP:        SNR: %5.3f dB\n',snr_n(signal(~full.mask),solution.reCP(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.CP, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    fprintf('   reCP:        SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.reCP(~full.mask)))
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.reCP, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(5)
     fprintf('   gradual:     SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.gradual(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.gradual, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.gradual, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(6)
     fprintf('   tdc:         SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.tdc(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.tdc, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.tdc, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(7)
     fprintf('   S-SPAIN H:   SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.SSPAIN_H(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.SSPAIN_H, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.SSPAIN_H, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(8)
     fprintf('   A-SPAIN:     SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.ASPAIN(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.ASPAIN, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.ASPAIN, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 if turnon(9)
     fprintf('   Janssen:     SNR: %5.2f dB\n',snr_n(signal(~full.mask),solution.Janssen(~full.mask)))
-    [~, ~, ODG, ~] = audioqual(signal, solution.Janssen, fs);
-    fprintf(repmat('\b', 1, 22))
-    fprintf('                ODG: %5.2f\n',ODG)
+    if PQ
+        [~, ~, ODG, ~] = audioqual(signal, solution.Janssen, fs);
+        fprintf(repmat('\b', 1, 22))
+        fprintf('                ODG: %5.2f\n',ODG)
+    end
 end
 
 %% spectrograms
