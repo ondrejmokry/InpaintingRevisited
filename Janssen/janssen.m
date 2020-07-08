@@ -19,6 +19,10 @@ function [ data_rec_fin ] = janssen(data_gapped, param, paramsolver)
 % Output parameters
 %       data_rec_fin   vector of reconstructed signal after OLA
 %
+% Date: 08/07/2020
+% By Ondrej Mokry, Pavel Zaviska
+% Brno University of Technology
+% Contact: ondrej.mokry@mensa.cz
 
 % preparation for padding at the end of the signal
 L = ceil(param.Ls/param.a)*param.a+(ceil(param.w/param.a)-1)*param.a; % L is divisible by a and minimum amount of zeros equals gl (window length). Zeros will be appended to avoid periodization of nonzero samples.
