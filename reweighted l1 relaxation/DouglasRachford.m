@@ -36,16 +36,16 @@ if ~isfield(paramsolver,'lambda')
     paramsolver.lambda = 1;
 end
 if ~isfield(paramsolver,'gamma')
-    paramsolver.gamma = 1;
+    paramsolver.gamma = 0.2;
 end
 if ~isfield(paramsolver,'y0')
     paramsolver.y0 = zeros(param.dim,1);
 end
 if ~isfield(paramsolver,'maxit')
-    paramsolver.maxit = 1000;
+    paramsolver.maxit = 500;
 end
 if ~isfield(paramsolver,'tol')
-    paramsolver.tol = 1e-4;
+    paramsolver.tol = 5e-4;
 end
 
 %% inicialization

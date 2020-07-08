@@ -16,25 +16,34 @@ contact the authors.
               available in the folder `data`. 
   * `Janssen` -- Functions for audio inpainting using AR-based method by
               Janssen et al. [1].
+  * `OMP` -- Functions for audio inpainting using the OMP algorithm [2, 3].
   * `PemoQ` -- Functions for evaluation of the perceived quality of restored
-              audio [2]. This folder is not part of the package due to copyright
+              audio [4]. This folder is not part of the package due to copyright
               issues. However, it needs to be included to reproduce the presented
               results.
   * `reweighted l1 relaxation` -- Implementation of the l1-relaxation-based
               methods presented in the paper and supporting functions.
-  * `SPAIN` -- Functions for audio inpainting using SPAIN algorithm [3].
+  * `SPAIN` -- Functions for audio inpainting using the SPAIN algorithm [5].
+  * `wavs` -- This folder is intentionally left empty. When then the script
+              `demo.m` is run, it saves the restored signals as WAV files to
+              this folder.
 
 **Files:**
   * `demo.m` -- The user is asked to choose signal, gap parameters (number,
               length) and algorithms from the preset options; the script
               then performs audio with such settings (if necessary, the
               parameters of the methods need to be changed in the m-file).
-  * `EBU_SQAM.mat` -- Collection of signals used for the evaluation [4].
-  * `inpainting_comparison_multigap.m` -- Implementation of the methods used
-              for overall evaluation; the script reproduces all the data
-              used in the paper, thus it takes a substantial amount of time.
+  * `EBU_SQAM.mat` -- Collection of signals used for the evaluation [6].
+  * `global_test_...` -- Implementation of all the tests performed for the
+              experimental part of the paper, except for the overall evaluation.
+              These 4 scripts are the source codes which generated the files in
+              the subfolder `data`.
+  * `inpainting_comparison_full.m`,  `inpainting_comparison_half.m
+              -- Implementation of the methods used for overall evaluation;
+              the scripta reproduce all the data used in the paper, thus it
+              takes a substantial amount of time to run them.
 
-All the scripts were tested in MATLAB R2019a and using LTFAT [5, 6]
+All the scripts were tested in MATLAB R2019a and using LTFAT [7, 8]
 (version 2.3.1), which is not contained in this package.
 
 For the plotting scripts to be functional, MATLAB version R2018b or higher
@@ -52,26 +61,31 @@ should be set to latex, use for example
 [1] A. J. E. M. Janssen, R. N. J. Veldhuis, and L. B. Vries, “Adaptive
     interpolation of discrete-time signals that can be modeled as
     autoregressive processes,” IEEE Trans. Acoustics, Speech and Signal
-    Processing, vol. 34, no. 2, pp. 317–330, 4 1986.
+    Processing, 1986.
 
-[2] R. Huber and B. Kollmeier, “PEMO-Q—A new method for objective
+[2] A. Adler, V. Emiya, M. Jafari, M. Elad, R. Gribonval, and M. Plumbley,
+    “Audio Inpainting,” IEEE Trans. Audio, Speech, and Language Processing,
+    2012.
+
+[3] T. Blumensath, “Sparsify toolbox,” online, URL:
+    https://www.southampton.ac.uk/engineering/about/staff/tb1m08.page#software
+
+[4] R. Huber and B. Kollmeier, “PEMO-Q—A new method for objective
     audio quality assessment using a model of auditory perception,” IEEE
-    Trans. Audio Speech Language Proc., vol. 14, no. 6, pp. 1902–1911,
-    November 2006.
+    Trans. Audio Speech Language Processing, 2006.
 
-[3] O. Mokry, P. Zaviska, P. Rajmic, and V. Vesely, “Introducing SPAIN
+[5] O. Mokry, P. Zaviska, P. Rajmic, and V. Vesely, “Introducing SPAIN
     (SParse Audio INpainter),” in 2019 27th European Signal Processing
     IEEE/ACM TRANSACTIONS ON AUDIO, SPEECH, AND LANGUAGE PROCESSING 20
     Conference (EUSIPCO). IEEE, 2019.
 
-[4] EBU SQAM CD: Sound quality assessment material recordings for
+[6] EBU SQAM CD: Sound quality assessment material recordings for
     subjective tests. online. URL: https://tech.ebu.ch/publications/sqamcd.
     [Online]. Available: https://tech.ebu.ch/publications/sqamcd
 
-[5] Z. Prusa, P. L. Sondergaard, N. Holighaus, C. Wiesmeyr, and P. Balazs,
+[7] Z. Prusa, P. L. Sondergaard, N. Holighaus, C. Wiesmeyr, and P. Balazs,
     “The Large Time-Frequency Analysis Toolbox 2.0,” in Sound, Music, and
-    Motion. Springer International Publishing, 2014, pp. 419–442.
-    [Online]. Available: http://dx.doi.org/10.1007/978-3-319-12976-1 25
+    Motion. Springer International Publishing, 2014.
 
-[6] P. L. Sondergaard. (2013) LTFAT webpage. URL:
-    http://ltfat.sourceforge.net.
+[8] P. L. Sondergaard. (2013) LTFAT webpage. URL:
+    http://ltfat.sourceforge.net

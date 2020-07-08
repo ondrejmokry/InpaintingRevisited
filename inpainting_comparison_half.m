@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                      INPAINTING METHODS COMPARISON                      %
+%                        version with half offset                         %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,16 +14,13 @@ rng(0)
 global conj_atoms;
 conj_atoms = true;
 
-%% paths and settings
+%% paths
 addpath('reweighted l1 relaxation');
 addpath('SPAIN');
-addpath('Janssen');
 addpath('OMP');
-
-PQ = exist('PemoQ','dir');
-if PQ
-    addpath(genpath('PemoQ'));
-end
+addpath('Janssen');
+addpath(genpath('PemoQ'));
+addpath(genpath('PEAQ'));
 
 load('EBU_SQAM.mat');
 
@@ -38,8 +36,9 @@ sigs = { 'a08_violin',...
          'a66_wind_ensemble_stravinsky' };
      
 gaps = 5:5:50;
+n = 8; % number of gaps
 
-% control, which methods to use in the default settings
+% control, which methods to use
 turnon = logical([ 1,... %  1. DR
                    1,... %  2. CP
                    1,... %  3. wDR
@@ -55,82 +54,33 @@ turnon = logical([ 1,... %  1. DR
                    1,... % 13. Janssen
                    ]);
 
-fprintf('Notes:\n')
-fprintf('  - LTFAT needs to be running on your PC (http://ltfat.github.io/)\n')
-fprintf('  - some basic settings are performed using the command window\n')
-fprintf('  - all the details need to be set inside the code demo.m\n')
+%                 signals       algos        gap length    gap position
+SNRs        = NaN(length(sigs), sum(turnon), length(gaps), n);
+fullSNRs    = NaN(length(sigs), sum(turnon), length(gaps));
+PemoQ.ODGs  = NaN(length(sigs), sum(turnon), length(gaps));
+PemoQ.PSMs  = NaN(length(sigs), sum(turnon), length(gaps));
+PemoQ.PSMts = NaN(length(sigs), sum(turnon), length(gaps));
+PEAQ        = NaN(length(sigs), sum(turnon), length(gaps));
 
-fprintf('\nAvailable signals:\n')
-for i = 1:length(sigs)
-    fprintf('  %2d.  %s\n',i,sigs{i})
-end
+%% timer
+t_start = clock;
 
-fprintf('\nAvailable gap lengths:\n')
-for i = 1:length(gaps)
-    fprintf('  %2d.  %2d ms\n',i,gaps(i))
-end
-
-prompt = '\nChoose signal number (1-10). Vector input accepted: ';
-signums = input(prompt);
-
-prompt = '\nChoose gap length number (1-10). Vector input accepted: ';
-gapnums = input(prompt);
-
-prompt = '\nChoose number of gaps per one signal (recommended max. 10): ';
-n = input(prompt);
-
-fprintf('\nControl the algorithms to be used:\n')
-prompt = '  Use defaults? (0/1): ';
-defaults = input(prompt);
-
-if ~defaults
-    methods = {...
-        'Douglas-Rachford',...
-        'Chambolle-Pock',...
-        'weighted Douglas-Rachford',...
-        'weighted Chambolle-Pock',...
-        'iteratively reweighted Douglas-Rachford',...
-        'iteratively reweighted Chambolle-Pock',...
-        'gradual',...
-        'direct time-domain compensation (tdc)',...
-        'S-SPAIN H',...
-        'S-SPAIN OMP',...
-        'A-SPAIN',...
-        'OMP',...
-        'Janssen'};
-    for method = 1:length(methods)
-        prompt = sprintf('    %s (0/1): ',methods{method});
-        turnon(method) = logical(input(prompt));
-    end
-end    
-
-prompt = '\nPlot spectrograms? (0/1): ';
-spectrograms = input(prompt);
-
-prompt = '\nSave wavs? (0/1): ';
-wavs = input(prompt);
-
-sig_counter = 0;
-
-%% inpainting
-for signum = signums
+for signum = 1:length(sigs)
     
-sig_counter = sig_counter + 1;
-gap_counter = 0;    
-
-for gapnum = gapnums
-
-gap_counter = gap_counter + 1;    
-    
-fprintf('\nSignal number: %d (no. %d of the chosen %d)',signum,sig_counter,length(signums));
-fprintf('\nGap length: %d ms (no. %d of the chosen %d)\n\n',gaps(gapnum),gap_counter,length(gapnums));
+for gapnum = 1:length(gaps)
+        
+fprintf('\nSignal number: %d/%d',signum,length(sigs));
+fprintf('\nGap length number: %d/%d\n\n',gapnum,length(gaps));
     
 %% loading signal                                              
 signame = sigs{signum};
-signal = eval(signame);
+signal  = eval(signame);
 
 fprintf('Signal: %s\n',signame);
 fprintf('Sampling rate: %d Hz\n',fs);
+
+%% saving the signal as wav at 48 kHz for PEAQ
+audiowrite('reference_half.wav',resample(signal,48000,fs),48000);
 
 %% transform setting
 % window length approximately 64 ms + divisible by 4
@@ -151,7 +101,7 @@ full.length = length(signal);
 full.mask   = true(full.length,1);
 
 %% segment setting
-not_degraded   = 0.5; % length of reliable part at the start / end of the signal (is seconds)
+not_degraded   = 0.5; % length of reliable part at the start / end of the signal (in seconds)
 segment.length = round((length(signal)-2*not_degraded*fs)/n);
 
 %% some global parameters 
@@ -178,6 +128,9 @@ solution.SSPAIN_OMP  = signal;
 solution.ASPAIN      = signal;
 solution.OMP         = signal;
 solution.Janssen     = signal;
+
+fields = fieldnames(solution);
+fields = fields(turnon);
 
 %% segment processing
 soft = @(x,gamma) sign(x) .* max(abs(x)-gamma, 0);
@@ -711,95 +664,46 @@ for i = 1:n
         % updating the global solution
         solution.Janssen(idxs) = segment.solution(1:segment.length)*segment.max;
     end
-end
-
-%% figures
-fulltime = (1:length(signal))/fs;
-
-% full time
-if strcmp(gradual.type,'analysis')
-    gradualweighting = CPweighting;
-else
-    gradualweighting = DRweighting;
-end
-leg = {'original',...
-       'syn. $$\ell_1$$ (\texttt{none})',...
-       'ana. $$\ell_1$$ (\texttt{none})',...
-       ['syn. $$\ell_1$$ (\texttt{', DRweighting, '})'],...
-       ['ana. $$\ell_1$$ (\texttt{', CPweighting, '})'],...
-       'syn. $$\ell_1$$ (\texttt{iterative})',...   
-       'ana. $$\ell_1$$ (\texttt{iterative})',... 
-       [gradual.type(1:3), '. $$\ell_1$$ (\texttt{', gradualweighting '}) + gradual'],...
-       [TDCparam.type(1:3), '. $$\ell_1$$ (\texttt{', TDCweighting '}) + tdc'],...
-       'S-SPAIN H',...
-       'S-SPAIN OMP',...
-       'A-SPAIN',...
-       'OMP',...
-       'Janssen'};
-
-fields = fieldnames(solution);
-fields = fields(turnon);
-   
-figure()
-hold on
-plot(fulltime,signal)
-for i = 1:sum(turnon)
-    plot(fulltime,solution.(fields{i}));
-end
-legend(leg([true turnon]),'interpreter','latex')
-xlabel('time [s]')
-title(sprintf('signal: %s, gap length: %d ms, full signal',signame,gap_length),'interpreter','none')
-
-% only the gaps
-figure()
-hold on
-plot(signal(~full.mask))
-for i = 1:sum(turnon)
-    plot(solution.(fields{i})(~full.mask));
-end
-legend(leg([true turnon]),'interpreter','latex')
-title(sprintf('signal: %s, gap length: %d ms, only the gaps',signame,gap_length),'interpreter','none')
-
-%% SNRs and ODGs
-fprintf('\nSNRs and ODGs computed from all the gaps at once:\n')
-for i = 1:sum(turnon)
-    restoredsignal = solution.(fields{i});
-    fprintf('   %11s: SNR: %5.2f dB\n',fields{i},snr_n(signal(~full.mask),restoredsignal(~full.mask)))
-    if PQ
-        [~, ~, ODG, ~] = audioqual(signal, restoredsignal, fs);
-        fprintf(repmat('\b', 1, 22))
-        fprintf('                ODG: %5.2f\n',ODG)
+    
+    %% saving SNRs   
+    for algo = 1:length(fields)
+        SNRs(signum,algo,gapnum,i) = snr_n(signal(idxs).*(~segment.mask),solution.(fields{algo})(idxs).*(~segment.mask));   
     end
 end
 
-%% spectrograms
-if spectrograms
-    number = sum(turnon)+1;
-    facts = factor(number);
-    A = facts(1);
-    B = max(A,number/A);
-    A = number/B;
-    titles = leg([true turnon]);
-    figure
-    subplot(A,B,1)
-    sg(signal)
-    title(titles{1},'interpreter','latex')
-    for spec = 2:number
-        subplot(A,B,spec)
-        sg(solution.(fields{spec-1}))
-        title(titles{spec},'interpreter','latex')
-    end
+%% writing full SNRs to the command window
+fprintf('\nSNRs computed from all the gaps at once:\n')
+for algo = 1:sum(turnon)
+    fprintf('   %11s: SNR: %5.2f dB\n',fields{algo},snr_n(signal(~full.mask),solution.(fields{algo})(~full.mask)))    
 end
 
-%% wavs
-if wavs
-    for i = 1:sum(turnon)
-        restoredsignal = solution.(fields{i});
-        audiowrite(['wavs\',sigs{signum}, '_', num2str(gaps(gapnum)), '_', fields{i}, '.wav'],restoredsignal,fs);
-    end
-    audiowrite(['wavs\',sigs{signum}, '_reference.wav'],signal,fs);
-    audiowrite(['wavs\',sigs{signum}, '_', num2str(gaps(gapnum)), '_anchor.wav'],signal.*full.mask,fs);
+%% saving SNRs and perceptual similarity measures
+for algo = 1:sum(turnon)
+    audio = solution.(fields{algo});
+    
+    % evaluation using PemoQ
+    fullSNRs(signum,algo,gapnum) = snr_n(signal(~full.mask),audio(~full.mask));
+    [PSM, PSMt, ODG, ~] = audioqual(signal, audio, fs);
+    
+    PemoQ.PSMs (signum,algo,gapnum) = PSM;
+    PemoQ.PSMts(signum,algo,gapnum) = PSMt;
+    PemoQ.ODGs (signum,algo,gapnum) = ODG;
+    
+    % evaluation using PEAQ
+    resampled = resample(audio,48000,fs);
+    audiowrite('test_half.wav',resampled,48000);
+    [PEAQ(signum,algo,gapnum), ~] = PQevalAudio_fn('reference_half.wav', 'test_half.wav', 0, length(resampled));
 end
+    
+save('data/final_test_half.mat','SNRs','fullSNRs','PemoQ','PEAQ');
+
+%% timer again
+t_now = clock;
+fprintf('\nSo far, the experiment has taken %d hours.',round(etime(t_now,t_start)/3600))
+estimatedtotalhours =...
+    etime(t_now,t_start)*length(sigs)*length(gaps)...
+    /( ((signum-1)*length(gaps) + gapnum) * 3600);
+fprintf('\nEstimated remaining time: %d hours.\n',round(estimatedtotalhours - etime(t_now,t_start)/3600))
 
 end % gapnum
 
