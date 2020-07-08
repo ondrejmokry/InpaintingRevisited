@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                           plotting weighting                            %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Date: 08/07/2020
+% By Ondrej Mokry
+% Brno University of Technology
+% Contact: ondrej.mokry@mensa.cz
+
 offsets = {'_full','_half'};
 
 for offset = 1:2

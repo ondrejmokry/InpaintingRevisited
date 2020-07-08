@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                          plotting reweighting                           %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Date: 08/07/2020
+% By Ondrej Mokry
+% Brno University of Technology
+% Contact: ondrej.mokry@mensa.cz
+
 gaps = 5:5:50;
 
 leg = {'\texttt{none}, full offset',...
