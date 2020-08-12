@@ -765,7 +765,7 @@ end
 legend(leg([true turnon]),'interpreter','latex')
 title(sprintf('signal: %s, gap length: %d ms, only the gaps',signame,gap_length),'interpreter','none')
 
-%% SNRs and ODGs
+%% SNRs (and ODGs)
 fprintf('\nSNRs and ODGs computed from all the gaps at once:\n')
 for i = 1:sum(turnon)
     restoredsignal = solution.(fields{i});
@@ -800,10 +800,10 @@ end
 if wavs
     for i = 1:sum(turnon)
         restoredsignal = solution.(fields{i});
-        audiowrite(['wavs\',sigs{signum}, '_', num2str(gaps(gapnum)), '_', fields{i}, '.wav'],restoredsignal,fs);
+        audiowrite(['wavs\',sigs{signum}(1:3), '_', num2str(gaps(gapnum)), '_', fields{i}, '.wav'],restoredsignal,fs);
     end
-    audiowrite(['wavs\',sigs{signum}, '_reference.wav'],signal,fs);
-    audiowrite(['wavs\',sigs{signum}, '_', num2str(gaps(gapnum)), '_anchor.wav'],signal.*full.mask,fs);
+    audiowrite(['wavs\',sigs{signum}(1:3), '_reference.wav'],signal,fs);
+    audiowrite(['wavs\',sigs{signum}(1:3), '_', num2str(gaps(gapnum)), '_anchor.wav'],signal.*full.mask,fs);
 end
 
 end % gapnum
