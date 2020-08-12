@@ -114,11 +114,18 @@ spectrograms = input(prompt);
 
 prompt = '\nSave wavs? (0/1): ';
 wavs = input(prompt);
+if wavs
+    status = mkdir('wavs');
+end
 
 sig_counter = 0;
 
 %% inpainting
 for signum = signums
+    
+if wavs
+    status = mkdir('wavs',sigs{signum});
+end
     
 sig_counter = sig_counter + 1;
 gap_counter = 0;    
@@ -800,10 +807,10 @@ end
 if wavs
     for i = 1:sum(turnon)
         restoredsignal = solution.(fields{i});
-        audiowrite(['wavs\',sigs{signum}(1:3), '_', num2str(gaps(gapnum)), '_', fields{i}, '.wav'],restoredsignal,fs);
+        audiowrite(['wavs\',sigs{signum},'\',sigs{signum}(1:3), '_', num2str(gaps(gapnum)), '_', fields{i}, '.wav'],restoredsignal,fs);
     end
-    audiowrite(['wavs\',sigs{signum}(1:3), '_reference.wav'],signal,fs);
-    audiowrite(['wavs\',sigs{signum}(1:3), '_', num2str(gaps(gapnum)), '_anchor.wav'],signal.*full.mask,fs);
+    audiowrite(['wavs\',sigs{signum},'\',sigs{signum}(1:3), '_reference.wav'],signal,fs);
+    audiowrite(['wavs\',sigs{signum},'\',sigs{signum}(1:3), '_', num2str(gaps(gapnum)), '_anchor.wav'],signal.*full.mask,fs);
 end
 
 end % gapnum
