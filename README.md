@@ -24,9 +24,9 @@ contact the authors.
   * `reweighted l1 relaxation` -- Implementation of the l1-relaxation-based
               methods presented in the paper and supporting functions.
   * `SPAIN` -- Functions for audio inpainting using the SPAIN algorithm [5].
-  * `wavs` -- This folder is intentionally left empty. When then the script
-              `demo.m` is run, it saves the restored signals as WAV files to
-              this folder.
+  * `wavs` -- This folder is created when the script `demo.m` is executed.
+              The script then saves the restored signals as WAV files to
+              this folder, sorted by signals.
 
 **Files:**
   * `demo.m` -- The user is asked to choose signal, gap parameters (number,
