@@ -4,7 +4,7 @@ by Ondřej Mokrý and Pavel Rajmic. See a short guide to the files contained
 in the repository provided below. In case of any questions, feel free to
 contact the authors.
 
-This repository contains the source for the web page.
+This repository contains the source for the web page https://ondrejmokry.github.io/InpaintingRevisited/.
 
 Due to space limitations, there are only selected examples
 of the results in the paper. To provide a comprehensive
