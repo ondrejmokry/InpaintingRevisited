@@ -4,16 +4,19 @@ by Ondřej Mokrý and Pavel Rajmic. See a short guide to the files contained
 in the repository provided below. In case of any questions, feel free to
 contact the authors.
 
+This repository contains the source for the web page.
+
+Due to space limitations, there are only selected examples
+of the results in the paper. To provide a comprehensive
+comparison of the method, supplemental results are presented in the folder `figures`.
+All the present figures are generated with scripts and data
+available in the folder `matlab/data`. 
+
 **Subfolders of the matlab folder:**
   * `data` -- The folder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
               (`*.mat` files) and the scripts (`plot_*.m`) are divided into
               subfolders based on the respective method.
-  * `figures` -- Due to space limitations, there are only selected examples
-              of the results in the paper. To provide a comprehensive
-              comparison of the method, supplemental results are presented here.
-              All the present figures are generated with scripts and data
-              available in the folder `data`. 
   * `Janssen` -- Functions for audio inpainting using AR-based method by
               Janssen et al. [1].
   * `OMP` -- Functions for audio inpainting using the OMP algorithm [2, 3].
