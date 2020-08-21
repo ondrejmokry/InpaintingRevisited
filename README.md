@@ -1,19 +1,22 @@
 # InpaintingRevisited
 Supplemental material to the paper Audio Inpainting: Revisited and Reweighted.
-by Ondřej Mokrý and Pavel Rajmic. See a short guide to the files contained
-in the repository provided below. In case of any questions, feel free to
-contact the authors.
+by Ondřej Mokrý and Pavel Rajmic. For the interactive web page with playable audio,
+see https://ondrejmokry.github.io/InpaintingRevisited/.
 
-This repository contains the source for the web page https://ondrejmokry.github.io/InpaintingRevisited/.
+A short guide to the files contained in the repository is provided below.
+In case of any questions, feel free to contact the authors.
 
-Due to space limitations, there are only selected examples
-of the results in the paper. To provide a comprehensive
-comparison of the method, supplemental results are presented in the folder `figures`.
-All the present figures are generated with scripts and data
-available in the folder `matlab/data`. 
-
-**Subfolders of the matlab folder:**
-  * `data` -- The folder contains results of all the performed experiments,
+**Folders:**
+  * `docs` -- Source code for the web page.
+  * `figures` -- Due to space limitations, there are only selected examples
+              of the results in the paper. To provide a comprehensive
+              comparison of the method, supplemental results are presented here.
+              All the present figures are generated with scripts and data
+              available in the folder `matlab/data`. 
+  * `matlab` -- Implementation of all the inpainting methods. 
+  
+**The matlab folder contains the following material:**
+  * `data` -- The subfolder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
               (`*.mat` files) and the scripts (`plot_*.m`) are divided into
               subfolders based on the respective method.
@@ -30,8 +33,6 @@ available in the folder `matlab/data`.
   * `wavs` -- This folder is created when the script `demo.m` is executed.
               The script then saves the restored signals as WAV files to
               this folder, sorted by signals.
-
-**Separate files:**
   * `demo.m` -- The user is asked to choose signal, gap parameters (number,
               length) and algorithms from the preset options; the script
               then performs audio with such settings (if necessary, the
