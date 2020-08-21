@@ -4,7 +4,7 @@ by Ondřej Mokrý and Pavel Rajmic. See a short guide to the files contained
 in the repository provided below. In case of any questions, feel free to
 contact the authors.
 
-**Subfolders:**
+**Subfolders of the matlab folder:**
   * `data` -- The folder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
               (`*.mat` files) and the scripts (`plot_*.m`) are divided into
@@ -28,7 +28,7 @@ contact the authors.
               The script then saves the restored signals as WAV files to
               this folder, sorted by signals.
 
-**Files:**
+**Separate files:**
   * `demo.m` -- The user is asked to choose signal, gap parameters (number,
               length) and algorithms from the preset options; the script
               then performs audio with such settings (if necessary, the
