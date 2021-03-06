@@ -86,8 +86,6 @@ for n=0:N-1
            [data_rec_block, snr_iter(:,n+1), obj_iter(:,n+1)] = sspain(data_block, param_seg, paramsolver, data_orig_block);
         case 'aspain'
            [data_rec_block, snr_iter(:,n+1), obj_iter(:,n+1)] = aspain(data_block, param_seg, paramsolver, data_orig_block);
-        case 'pspain'
-           [data_rec_block, snr_iter(:,n+1), obj_iter(:,n+1)] = pspain(data_block, param_seg, paramsolver, data_orig_block);
     end
     
     % folding blocks together using Overlap-add approach (OLA)
