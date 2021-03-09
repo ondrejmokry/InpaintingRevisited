@@ -53,24 +53,28 @@ if ~isfield(paramsolver,'tol')
     paramsolver.tol = 5e-4;
 end
 
-%% inicialization
-obj_val = Inf(paramsolver.maxit,1);
+%% initialization
+obj_val  = Inf(paramsolver.maxit,1);
 rel_norm = Inf(paramsolver.maxit,1);
-x_old = paramsolver.y0;
-y = paramsolver.y0;
+x_old    = paramsolver.y0;
+y        = paramsolver.y0;
 
 %% algorithm
 i = 1;
 while i <= paramsolver.maxit && (rel_norm(i) > paramsolver.tol || i < 10)
     x_new = param.prox_g(y, paramsolver.gamma);
-    y = y + paramsolver.lambda*(param.prox_f(2*x_new - y, paramsolver.gamma) - x_new);
-    i = i + 1;
-    obj_val(i) = param.f(x_new) + param.g(x_new);
-    rel_norm(i) = norm(x_new-x_old)/norm(x_old);
+    y     = y + paramsolver.lambda*(param.prox_f(2*x_new - y, paramsolver.gamma) - x_new);
+    i     = i + 1;
+    if nargout > 1
+        obj_val(i)  = param.f(x_new) + param.g(x_new);
+        rel_norm(i) = norm(x_new-x_old)/norm(x_old);
+    end
     x_old = x_new;
 end
 
 %% output
 x_hat = x_new;
-obj_val = obj_val(1:i-1);
-rel_norm = rel_norm(1:i-1);
+if nargout > 1
+    obj_val  = obj_val(1:i-1);
+    rel_norm = rel_norm(1:i-1);
+end

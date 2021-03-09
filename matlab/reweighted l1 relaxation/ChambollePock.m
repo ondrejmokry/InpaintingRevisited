@@ -21,7 +21,7 @@ function [ x_hat, obj_val, rel_norm ] = ChambollePock(param,paramsolver)
 %         .dim ...... length of x
 %      paramsolver
 %         .sigma .... parameter of prox_f*
-%         .tau ...... parameter of proc_g
+%         .tau ...... parameter of prox_g
 %         .theta .... step size
 %         .x0 ....... starting point of primal variable
 %         .y0 ....... starting point of dual variable
@@ -62,27 +62,31 @@ if ~isfield(paramsolver,'tol')
     paramsolver.tol = 5e-4;
 end
 
-%% inicialization
-obj_val = Inf(paramsolver.maxit,1);
+%% initialization
+obj_val  = Inf(paramsolver.maxit,1);
 rel_norm = Inf(paramsolver.maxit,1);
-x_old = paramsolver.x0;
-x_line = paramsolver.x0;
-y = paramsolver.y0;
+x_old    = paramsolver.x0;
+x_line   = paramsolver.x0;
+y        = paramsolver.y0;
 
 %% algorithm
 i = 1;
 while i <= paramsolver.maxit && (rel_norm(i) > paramsolver.tol || i < 10)
-    arg = y + paramsolver.sigma*param.K(x_line);
-    y = arg - paramsolver.sigma*param.prox_f(arg/paramsolver.sigma, 1/paramsolver.sigma);
-    x_new = param.prox_g(x_old - paramsolver.tau*param.K_adj(y), paramsolver.tau);
+    arg    = y + paramsolver.sigma*param.K(x_line);
+    y      = arg - paramsolver.sigma*param.prox_f(arg/paramsolver.sigma, 1/paramsolver.sigma);
+    x_new  = param.prox_g(x_old - paramsolver.tau*param.K_adj(y), paramsolver.tau);
     x_line = x_new + paramsolver.theta*(x_new-x_old);    
-    i = i + 1;
-    obj_val(i) = param.f(param.K(x_new)) + param.g(x_new);
-    rel_norm(i) = norm(x_new-x_old)/norm(x_old);
-    x_old = x_new;
+    i      = i + 1;
+    if nargout > 1
+        obj_val(i)  = param.f(param.K(x_new)) + param.g(x_new);
+        rel_norm(i) = norm(x_new-x_old)/norm(x_old);
+    end
+    x_old  = x_new;
 end
 
 %% output
 x_hat = x_new;
-obj_val = obj_val(1:i-1);
-rel_norm = rel_norm(1:i-1);
+if nargout > 1
+    obj_val  = obj_val(1:i-1);
+    rel_norm = rel_norm(1:i-1);
+end
