@@ -7,43 +7,43 @@ A short guide to the files contained in the repository is provided below.
 In case of any questions, feel free to contact the authors.
 
 **Folders:**
-  * `docs` -- Source code for the web page.
-  * `figures` -- Due to space limitations, there are only selected examples
+  * `docs` – Source code for the web page.
+  * `figures` – Due to space limitations, there are only selected examples
               of the results in the paper. To provide a comprehensive
               comparison of the method, supplemental results are presented here.
               All the present figures are generated with scripts and data
               available in the folder `matlab/data`. 
-  * `matlab` -- Implementation of all the inpainting methods. 
+  * `matlab` – Implementation of all the inpainting methods. 
   
 **The matlab folder contains the following material:**
-  * `data` -- The subfolder contains results of all the performed experiments,
+  * `data` – The subfolder contains results of all the performed experiments,
               together with scripts that plot the used figures; both data
               (`*.mat` files) and the scripts (`plot_*.m`) are divided into
               subfolders based on the respective method.
-  * `Janssen` -- Functions for audio inpainting using AR-based method by
+  * `Janssen` – Functions for audio inpainting using AR-based method by
               Janssen et al. [1].
-  * `OMP` -- Functions for audio inpainting using the OMP algorithm [2, 3].
-  * `PemoQ` -- Functions for evaluation of the perceived quality of restored
+  * `OMP` – Functions for audio inpainting using the OMP algorithm [2, 3].
+  * `PemoQ` – Functions for evaluation of the perceived quality of restored
               audio [4]. This folder is not part of the package due to copyright
               issues. However, it needs to be included to reproduce the presented
               results.
-  * `reweighted l1 relaxation` -- Implementation of the l1-relaxation-based
+  * `reweighted l1 relaxation` – Implementation of the l1-relaxation-based
               methods presented in the paper and supporting functions.
-  * `SPAIN` -- Functions for audio inpainting using the SPAIN algorithm [5].
-  * `wavs` -- This folder is created when the script `demo.m` is executed.
+  * `SPAIN` – Functions for audio inpainting using the SPAIN algorithm [5].
+  * `wavs` – This folder is created when the script `demo.m` is executed.
               The script then saves the restored signals as WAV files to
               this folder, sorted by signals.
-  * `demo.m` -- The user is asked to choose signal, gap parameters (number,
+  * `demo.m` – The user is asked to choose signal, gap parameters (number,
               length) and algorithms from the preset options; the script
               then performs audio with such settings (if necessary, the
               parameters of the methods need to be changed in the m-file).
-  * `EBU_SQAM.mat` -- Collection of signals used for the evaluation [6].
-  * `global_test_...` -- Implementation of all the tests performed for the
+  * `EBU_SQAM.mat` – Collection of signals used for the evaluation [6].
+  * `global_test_...` – Implementation of all the tests performed for the
               experimental part of the paper, except for the overall evaluation.
               These 4 scripts are the source codes which generated the files in
               the subfolder `data`.
-  * `inpainting_comparison_full.m`,  `inpainting_comparison_half.m
-              -- Implementation of the methods used for overall evaluation;
+  * `inpainting_comparison_full.m`,  `inpainting_comparison_half.m`
+              – Implementation of the methods used for overall evaluation;
               the scripta reproduce all the data used in the paper, thus it
               takes a substantial amount of time to run them.
 
