@@ -59,7 +59,7 @@ param.F = frameaccel(param.F,L); % acceleration of snythesis and analysis
 if strcmp(param.weighting,'none')
     wts = 1;
 else
-    wts = weights( param.F, L, mask, U, V, syn_atoms(param.F), param.weighting);
+    wts = weights(param.F, L, mask, U, V, syn_atoms(param.F), param.weighting);
 end
 
 %% reconstruction
